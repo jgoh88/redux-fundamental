@@ -81,6 +81,14 @@ const Footer = () => {
   })
   const dispatch = useDispatch()
 
+  const handleMarkAllCompleted = () => {
+    dispatch({ type: 'todos/allCompleted', payload: {} })
+  }
+
+  const handleClearCompleted = () => {
+    dispatch({ type: 'todos/completedCleared', payload: {} })
+  }
+
   const handleColorFilterChange = (color, changeType) => {
     dispatch({ type: 'filters/colorFilterChanged', payload: {color, changeType,} })
   }
@@ -88,13 +96,13 @@ const Footer = () => {
   const handleStatusFilterChange = (status) => {
     dispatch({ type: 'filters/statusFilterChanged', payload: status })
   }
-  
+
   return (
     <footer className="footer">
       <div className="actions">
         <h5>Actions</h5>
-        <button className="button">Mark All Completed</button>
-        <button className="button">Clear Completed</button>
+        <button className="button" onClick={handleMarkAllCompleted}>Mark All Completed</button>
+        <button className="button" onClick={handleClearCompleted}>Clear Completed</button>
       </div>
 
       <RemainingTodos count={todosRemaining} />
