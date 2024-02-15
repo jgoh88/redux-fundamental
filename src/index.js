@@ -5,6 +5,13 @@ import App from './App'
 
 import './api/server'
 
+import store from './store'
+
+console.log('Dispatching action')
+store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions' })
+console.log('Dispatch complete')
+console.log('State after dispatch: ', store.getState())
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
