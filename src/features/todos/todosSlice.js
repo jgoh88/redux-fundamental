@@ -1,8 +1,6 @@
-const initialState = [
-  { id: 0, text: 'Learn React', completed: true },
-  { id: 1, text: 'Learn Redux', completed: false, color: 'purple' },
-  { id: 2, text: 'Build something fun!', completed: false, color: 'blue' }
-]
+import { client } from "../../api/client"
+
+const initialState = []
 
 function nextTodoId(todos) {
   const maxId = todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1)
@@ -14,11 +12,7 @@ export default function todosReducer(state = initialState, action) {
     case 'todos/todoAdded': {
       return [
         ...state,
-        {
-          id: nextTodoId(state),
-          text: action.payload,
-          completed: false,
-        },
+        action.payload,
       ]
     }
     case 'todos/todoToggled': {
@@ -57,7 +51,23 @@ export default function todosReducer(state = initialState, action) {
     case 'todos/completedCleared': {
       return state.filter((todo) => !todo.completed)
     }
+    case 'todos/todosLoaded': {
+      return action.payload
+    }
     default:
       return state
+  }
+}
+
+export async function fetchTodos(dispatch, getState) {
+  const response = await client.get('/fakeApi/todos')
+  dispatch({ type: 'todos/todosLoaded', payload: response.todos })
+}
+
+export function saveNewTodo(text) {
+  return async function saveNewTodoThunk(dispatch, getState) {
+    const initialTodo = { text }
+    const response = await client.post('/fakeApi/todos', { todo: initialTodo })
+    dispatch({ type: 'todos/todoAdded', payload: response.todo })
   }
 }
