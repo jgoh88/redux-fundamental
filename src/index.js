@@ -14,7 +14,7 @@ import { fetchTodos } from './features/todos/todosSlice'
 // console.log('Dispatch complete')
 // console.log('State after dispatch: ', store.getState())
 
-store.dispatch(fetchTodos)
+store.dispatch(fetchTodos())
 
 ReactDOM.render(
   <React.StrictMode>
